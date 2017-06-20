@@ -1,0 +1,87 @@
+<h1>Bulk Payments</h1>
+<hr/>
+<div ng-show="!$root.config.url">cannot use virtual terminal until configured</div>
+<form ng-submit="authAndAddCard()" ng-show="$root.config.url && mode == 'add'" style="text-align:right; width:350px">
+  <h3>Add Account</h3>
+
+  <div>
+    <label>Alias</label>
+    <input type="text" ng-model="alias">
+  </div>
+  <div>
+    <label>Recurring Amount</label>
+    <input type="text" ng-model="reccuringAmount">
+  </div>
+  <div>
+  <label>Account</label>
+  <input type="text" ng-model="request.Account">
+  </div>
+  <div>
+  <label>Expiration</label>
+  <input type="text" ng-model="request.Expiration">
+  </div>
+  <div>
+  <label>CVV</label>
+  <input type="text" ng-model="request.CVV">
+  </div>
+  <div>
+  <label>Zip</label>
+  <input type="text" ng-model="request.Zip">
+  </div>
+  <button type="submit" ng-submit="authAndAddCard()">Add</button>
+  <a style="font: bold 11px Arial;
+  text-decoration: none;
+  background-color: #EEEEEE;
+  color: #333333;
+  padding: 2px 6px 2px 6px;
+  border-top: 1px solid #CCCCCC;
+  border-right: 1px solid #333333;
+  border-bottom: 1px solid #333333;
+  border-left: 1px solid #CCCCCC;" ng-click="mode='process'">Cancel</a>
+</form>
+<div ng-show="mode == 'process'" ng-disabled="processing">
+  <p>
+  click add to add a card to be bulk processed. click process to trigger payment to all displayed accounts below
+</p>
+  <span ng-show="processing">input disabled while processing...</span>
+  <button ng-click="mode = 'add'">Add Accounts</button>
+  <button ng-show="!hasChanges" ng-click="bulkProcess(savedAccounts)">Process</button>
+  <button ng-show="hasChanges == true" ng-click="saveAndBulkProcess()">Save and Process</button>
+  <button ng-show="hasChanges == true" ng-click="saveAmountChanges()">Save</button>
+
+  <h3>Accounts</h3>
+<table style="width:95%;text-align:left;" ng-show="savedAccounts.length > 0">
+  <thead>
+    <th>Alias</th>
+    <th>Account</th>
+    <th>Amount</th>
+    <th>Last Processed</th>
+    <th style="text-align:right;">History</th>
+    <th style="text-align:right;">Remove</th>
+  </thead>
+  <tbody>
+    <tr ng-repeat-start="r in savedAccounts">
+      <td>{{r.alias}}</td>
+      <td>{{r.account}}</td>
+      <td><input type="text" ng-model="r.amount" data-ng-change="$parent.hasChanges = true"></td>
+      <td>{{r.lastProcessedDate | date:'MM/dd/yyyy @ h:mma'}}</td>
+      <td style="text-align:right;">
+        <button ng-click="r.showHistory = !(r.showHistory);" ng-show="r.history.length > 0">History</button>
+        <span ng-show="r.history.length == 0">N/A</span>
+      </td>
+      <td style="text-align:right;"><button ng-click="removeAccount(r)">Remove</button>
+    </tr>
+    <tr ng-show="r.showHistory" ng-repeat="h in r.history">
+      <td></td>
+      <td>{{h.amount}}</td>
+      <td>{{h.processedDate | date:'MM/dd/yyyy @ h:mma'}}</td>
+    </tr>
+    <tr ng-repeat-end ng-show="r.showHistory">
+      <td colspan="5" style="text-align:right;">
+        <button ng-click="r.showHistory = false">Close</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<span ng-show="!savedAccounts || savedAccounts.length == 0">No saved Accounts</span>
+</div>

@@ -1,0 +1,15 @@
+<h1>Configuration</h1>
+<form style="text-align:right; width:350px;" ng-submit="saveConfig(url, secret)">
+<div>
+<label>API URL:</label>
+<input type="text" ng-model="url"></input><br/>
+<span ng-bind="url"> </span>
+</div>
+<div>
+<label>Secret</label>
+<input type="password" ng-model="secret"></input>
+</div>
+<div>
+  <button ng-click="saveConfig(url, secret)">Save</button>
+</div>
+</form>

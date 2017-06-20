@@ -1,0 +1,51 @@
+<h1>Virtual Terminal</h1>
+<hr/>
+<div ng-show="!$root.config.url">cannot use virtual terminal until configured</div>
+<form ng-submit="requestPayment()" ng-show="$root.config.url" style="text-align:right; width:350px;">
+  <div>
+    <label>Amount</label>
+    <input type="text" ng-model="request.Amount">
+  </div>
+  <div>
+  <label>Account</label>
+  <input type="text" ng-model="request.Account">
+  </div>
+  <div>
+  <label>Expiration</label>
+  <input type="text" ng-model="request.Expiration">
+  </div>
+  <div>
+  <label>CVV</label>
+  <input type="text" ng-model="request.CVV">
+  </div>
+  <div>
+  <label>Zip</label>
+  <input type="text" ng-model="request.Zip">
+  </div>
+  <button type="submit" ng-submit="requestPayment()">Process</button>
+</form>
+<div ng-show="responses.length > 0">
+<hr>
+<h2>Responses</h2>
+<table style="width:100%;text-align:left;">
+  <thead>
+    <tr>
+      <th>Account(last4)</th>
+      <th>Amount</th>
+      <th>Brand</th>
+      <th>RefNo</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="r in responses">
+      <td>{{r.Account}}</td>
+      <td>{{r.Amount}}</td>
+      <td>{{r.Brand}}</td>
+      <td>{{r.RefNo}}</td>
+    </tr>
+  </tbody>
+</table>
+<div ng-repeat="response in responses">
+    <span>{{response|json}}</span>
+</div>
+</div>

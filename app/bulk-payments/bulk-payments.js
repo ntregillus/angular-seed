@@ -92,7 +92,11 @@ function($rootScope, $scope, $localStorage, $pay) {
 				else{
 					failures.push(response.content);
 				}
-
+				var curAccount = $scope.savedAccounts.filter(function(a){return a.token == response.content.Token});
+				if(curAccount.length > 0){
+					curAccount[0].lastProcessedDate = Date.now();
+					curAccount[0].history.unshift({amount:response.content.Amount, processedDate: Date.now()});
+				}
 				if(processedCount == accountsToProcess.length){
 					if(failures.length == 0){
 						$rootScope.notifications.unshift({
@@ -109,23 +113,26 @@ function($rootScope, $scope, $localStorage, $pay) {
 						}
 					}
 					$scope.processing = false;
+					$scope.saveAmountChanges(true);
 				}
-			}, false);
+			}, true);
 		}
 
 	};
 
-	$scope.saveAmountChanges = function() {
+	$scope.saveAmountChanges = function(suppressNotification) {
 			$localStorage.save('savedAccounts', $scope.savedAccounts);
-			$rootScope.notifications.unshift({
-				class: 'success',
-				message: "Saved Amount Changes"
-			});
+			if(typeof(suppressNotification) === 'undefined' || suppressNotification == false)
+			{
+				$rootScope.notifications.unshift({
+					class: 'success',
+					message: "Saved Amount Changes"
+				});
+			}
 			$scope.hasChanges = false;
 	};
 
 	$scope.saveAndBulkProcess = function() {
-			$scope.saveAmountChanges();
 			$scope.bulkProcess($scope.savedAccounts);
 	};
 

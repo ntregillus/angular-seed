@@ -44,10 +44,13 @@
   click add to add a card to be bulk processed. click process to trigger payment to all displayed accounts below
 </p>
   <span ng-show="processing">input disabled while processing...</span>
-  <button ng-click="mode = 'add'">Add Accounts</button>
-  <button ng-click="saveAndBulkProcess(savedAccounts)">Process</button>
-  <button ng-show="hasChanges == true" ng-click="saveAmountChanges()">Save</button>
-
+  <div ng-show="!processing">
+    <button ng-click="mode = 'add'">Add Accounts</button>
+    <button ng-click="saveAndBulkProcess(savedAccounts)">Process</button>
+    <button ng-show="hasChanges == true" ng-click="saveAmountChanges()">Save</button>
+    <button ng-click="backup()">Backup</button>
+    <button ng-click="mode = 'import'">Import</button>
+  </div>
   <h3>Accounts</h3>
 <table style="width:95%;text-align:left;" ng-show="savedAccounts.length > 0">
   <thead>
@@ -70,7 +73,6 @@
       </td>
       <td style="text-align:right;"><button ng-click="removeAccount(r)">Remove</button>
     </tr>
-    <tr ng-show="r.showHistory" ng-repeat="h in r.history">
       <td colspan="2"></td>
       <td>{{h.amount}}</td>
       <td>{{h.processedDate | date:'MM/dd/yyyy @ h:mma'}}</td>
@@ -83,4 +85,10 @@
   </tbody>
 </table>
 <span ng-show="!savedAccounts || savedAccounts.length == 0">No saved Accounts</span>
+</div>
+<div ng-show="mode=='import'">
+  <p>copy contents of your 'BulkProcessingBackup.json' file into the textbox below, and click Import</p>
+  <textarea ng-model="backupContents"></textarea>
+  <button ng-click="importBackup()">Import</button>
+  <button ng-click="mode = 'process'">Cancel</button>
 </div>

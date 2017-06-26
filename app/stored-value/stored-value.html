@@ -1,0 +1,52 @@
+
+<h1>Stored Value</h1>
+<div>
+<form ng-submit="submitTransaction()" style="text-align:right; width:350px;">
+  <div>
+    <label>Operation:</label>
+    <input type="radio" name="operation" value="Sale" ng-model="op">Sale</input>
+    <input type="radio" name="operation" value="Load" ng-model="op">Load</input>
+    <input type="radio" name="operation" value="Balance" ng-model="op">Balance</input>
+  </div>
+  <div>
+    <label>Amount:</label>
+    <input type="text" ng-model="amount" ng-disabled="op == 'Balance'"></input>
+  </div>
+  <div>
+    <label>Account:</label>
+    <input type="text" ng-model="account"></input>
+  </div>
+  <div>
+    <label>CVV:</label>
+    <input type="text" ng-model="cvv"></input>
+  </div>
+  <button ng-submit="submitTransaction()">Process {{op}}</button>
+</form>
+</div>
+<div ng-show="responses.length > 0">
+  <hr/>
+  <h2>Responses</h2>
+  <table style="width:100%;text-align:left;">
+    <thead>
+      <tr>
+        <th>Account</th>
+        <th>Amount</th>
+        <th>Operation</th>
+        <th>RefNo</th>
+        <th>Void</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="r in responses track by r.guid">
+        <td>{{r.Account}}</td>
+        <td>{{r.Amount}}</td>
+        <td>{{r.Operation}}</td>
+        <td>{{r.RefNo}}</td>
+        <td>
+          <button ng-show="showVoidButton(r)" ng-click="voidStoredValue(r)">Void</button>
+          <span ng-show="r.Voided">Voided</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

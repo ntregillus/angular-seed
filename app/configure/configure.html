@@ -7,10 +7,13 @@
 <label>Merchant Secret</label>
 <input type="password" ng-model="secret"></input>
 </div>
-<div>
+<p>
 <label>API URL:</label><span ng-bind="url"> </span>
-</div>
+</p>
+<p>
+  <label>Reporing URL:</label><span ng-bind="reportingUrl"> </span>
+</p>
 <div>
-  <button ng-submit="saveConfig(url, secret)">Save</button>
+  <button ng-submit="saveConfig()">Save</button>
 </div>
 </form>

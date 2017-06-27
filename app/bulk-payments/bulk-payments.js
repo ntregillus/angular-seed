@@ -16,6 +16,7 @@ function($rootScope, $scope, $localStorage, $pay) {
   $scope.request = $scope.request || {};
 	$scope.hasChanges = false;
 	$scope.processing = false;
+	$scope.backupContents = '';
 	$scope.authAndAddCard = function (){
 		var authData = $scope.request;
 		authData.Amount = 0.00;
@@ -59,7 +60,7 @@ function($rootScope, $scope, $localStorage, $pay) {
 	};
 
 	$scope.removeAccount = function (account){
-		if(!confirm('are you sure you want to remove' + account.alias + "?"))
+		if(!confirm('are you sure you want to remove ' + account.alias + "?"))
 		{
 			return;
 		}
@@ -95,7 +96,8 @@ function($rootScope, $scope, $localStorage, $pay) {
 				var curAccount = $scope.savedAccounts.filter(function(a){return a.token == response.content.Token});
 				if(curAccount.length > 0){
 					curAccount[0].lastProcessedDate = Date.now();
-					curAccount[0].history.unshift({amount:response.content.Amount, processedDate: Date.now()});
+					var refNo = response.contnet.RefNo || ("noRefNo"+curAccount[0].history.length);
+					curAccount[0].history.unshift({amount:response.content.Amount, processedDate: Date.now(), refNo: refNo});
 				}
 				if(processedCount == accountsToProcess.length){
 					if(failures.length == 0){
@@ -134,6 +136,76 @@ function($rootScope, $scope, $localStorage, $pay) {
 
 	$scope.saveAndBulkProcess = function() {
 			$scope.bulkProcess($scope.savedAccounts);
+	};
+
+	$scope.backup = function() {
+			var filename = 'BulkProcessingBackup.json';
+			var data = $scope.savedAccounts;
+
+		  if (!data) {
+		    console.error('No data');
+		    return;
+		  }
+
+		  if (!filename) {
+		    filename = 'download.json';
+		  }
+
+		  if (typeof data === 'object') {
+		    data = JSON.stringify(data, undefined, 2);
+		  }
+
+		  var blob = new Blob([data], {type: 'text/json'});
+
+		  // FOR IE:
+
+		  if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+		      window.navigator.msSaveOrOpenBlob(blob, filename);
+		  }
+		  else{
+		      var e = document.createEvent('MouseEvents'),
+		          a = document.createElement('a');
+
+		      a.download = filename;
+		      a.href = window.URL.createObjectURL(blob);
+		      a.dataset.downloadurl = ['text/json', a.download, a.href].join(':');
+		      e.initEvent('click', true, false, window,
+		          0, 0, 0, 0, 0, false, false, false, false, 0, null);
+		      a.dispatchEvent(e);
+		  }
+	};
+	$scope.importBackup = function() {
+
+		var backupData = [];
+		try{
+			backupData = JSON.parse($scope.backupContents);
+			if (!Array.isArray(backupData)){
+				throw "backup data is not a json array!";
+			}
+			for(var i = 0; i < backupData.length; i++){
+				var account = backupData[i];
+				if(typeof(account.token) !== 'string'){
+					throw "account at index " + i + " does not have a valid token";
+				}
+				if(typeof(account.amount) !== 'string' || parseFloat(account.amount) == "NaN"){
+					throw "account at index " + i + " does not have a valid Amount";
+				}
+			}
+		}catch(e){
+			var msg = e.message || e.toString();
+			$rootScope.notifications.unshift({
+				class: 'failure',
+				message: "Fail: " + msg
+			});
+			return;
+		}
+
+		if(!confirm('You will wipe out all existing saved accounts. Are you sure?')){
+			return;
+		}
+		$scope.savedAccounts = backupData;
+		$scope.saveAmountChanges();
+		$scope.mode = 'process'
 	};
 
 }]);

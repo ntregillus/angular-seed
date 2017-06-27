@@ -109,4 +109,11 @@
     </div>
     <span ng-show="!savedAccounts || savedAccounts.length == 0">No saved Accounts</span>
   </div>
+
+</div>
+<div ng-show="mode=='import'">
+  <p>copy contents of your 'BulkProcessingBackup.json' file into the textbox below, and click Import</p>
+  <textarea ng-model="backupContents"></textarea>
+  <button ng-click="importBackup()">Import</button>
+  <button ng-click="mode = 'process'">Cancel</button>
 </div>

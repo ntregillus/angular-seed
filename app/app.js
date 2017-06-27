@@ -6,7 +6,8 @@ var app = angular.module('myApp', [
 	'myApp.configure',
 	'myApp.terminal',
 	'myApp.bulk-payments',
-	'myApp.version'
+	'myApp.version',
+	'myApp.stored-value'
 ]);
 app.service('$localStorage', function(){
 
@@ -21,70 +22,7 @@ app.service('$localStorage', function(){
 		}
 		return result;
 	}
-
 });
-
-app.service('$pay', ['$http', '$rootScope', function($http, $rootScope){
-	$rootScope.config;
-	var buildSuccessHandler = function(callback, suppressNotification){
-		return function(response){
-			if(!suppressNotification)
-			{
-				$rootScope.notifications.unshift({
-					class: "success",
-					message: (response.data.Status||"Success")
-									+ " (" + (response.data.Account|| "NoAccount") + ")"
-									+ ":" + response.data.Message
-				});
-			}
-			if(callback)
-			{
-				callback({content: response.data, isSuccessful: true});
-			}
-		};
-	};
-	var buildFailureHandler = function(callback, suppressNotification){
-		return function(response){
-			var formattedMsg = (response.data.Status||"ERROR")
-							+ " (" + (response.data.Account|| "NoAccount") + ")"
-							+ ":" + response.data.Message;
-			if(!suppressNotification)
-			{
-
-				$rootScope.notifications.unshift({
-					class: "failure",
-					message: formattedMsg
-				});
-			}
-			if(callback)
-			{
-				callback({content: response.data, isSuccessful: false, formattedMsg: formattedMsg});
-			}
-		};
-	};
-	var headers = {
-		 'Authorization': $rootScope.config.secret,
-		 'Content-Type': 'application/json'
-	 };
-	this.processCredit = function (payload, callback, suppressNotification){
-		$http({
-			method: 'POST',
-			url: $rootScope.config.url + 'credit/sale/',
-			data: JSON.stringify(payload),
-			headers: headers
-		}).then(buildSuccessHandler(callback, suppressNotification),
-						buildFailureHandler(callback, suppressNotification));
-
-	};
-	this.authCheck = function(payload, callback, suppressNotification){
-		$http({
-			method: 'POST',
-			url: $rootScope.config.url + 'credit/authonly',
-			data: JSON.stringify(payload),
-			headers: headers
-		}).then(buildSuccessHandler(callback), buildFailureHandler(callback));
-	};
-}]);
 
 app.config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
 	$locationProvider.hashPrefix('!');
@@ -106,10 +44,9 @@ app.run(function($rootScope, $localStorage){
 		if (!$rootScope.config){
 			$rootScope.config = {
 				url: '',
+				reportingUrl: '',
 				secret: ''
 			};
 			$localStorage.save('config', $rootScope.config);
 		}
-		$rootScope.notifications = [{class:'test', message:"test this"}];
-
 });

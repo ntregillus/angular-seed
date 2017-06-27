@@ -72,31 +72,39 @@
 
     <div class="table-responsive">
       <div id="detailedTable_wrapper" class="dataTables_wrapper form-inline no-footer">
-        <table class="table table-hover table-condensed table-detailed dataTable no-footer" id="detailedTable" role="grid" ng-show="savedAccounts.length > 0">
+        <table class="table table-hover table-condensed table-detailed dataTable no-footer" role="grid" ng-show="savedAccounts.length > 0">
           <thead>
             <tr role="row">
-              <th style="" class="sorting_disabled" rowspan="1" colspan="1">Account</th>
-              <th style="" class="sorting_disabled" rowspan="1" colspan="1">Card</th>
-              <th style="" class="sorting_disabled" rowspan="1" colspan="1">Last</th>
+              <th style="" class="sorting_disabled" rowspan="1" colspan="1">Alias</th>
+              <th style="" class="sorting_disabled" rowspan="1" colspan="1">Last Processed</th>
               <th style="" class="sorting_disabled" rowspan="1" colspan="1">Recurring</th>
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat-start="r in savedAccounts">
-              <td class="v-align-middle semi-bold">{{r.alias}}</td>
-              <td class="v-align-middle">{{r.account}}</td>
+            <tr ng-class="{shown: r.showHistory}" ng-repeat-start="r in savedAccounts">
+              <td class="v-align-middle semi-bold" ng-click="r.showHistory = !(r.showHistory);">{{r.alias}}</td>
               <td class="v-align-middle bold">{{r.lastProcessedDate | date:'MM/dd/yyyy @ h:mma'}}</td>
-              <td class="v-align-middle"><input type="text" ng-model="r.amount" data-ng-change="$parent.hasChanges = true"></td>
-              <td style="text-align:right;">
-                <button ng-click="r.showHistory = !(r.showHistory);" ng-show="r.history.length > 0">History</button>
-                <span ng-show="r.history.length == 0">N/A</span>
+              <td class="v-align-middle">
+                <div class="input-group">
+                  <span class="input-group-addon">
+                    <i class="fa fa-dollar"></i>
+                  </span>
+                  <input type="text" class="form-control" ng-model="r.amount" data-ng-change="$parent.hasChanges = true">
+                </div>
               </td>
-              <td style="text-align:right;"><button ng-click="removeAccount(r)">Remove</button>
             </tr>
-            <tr ng-show="r.showHistory" ng-repeat="h in r.history">
-              <td colspan="2"></td>
-              <td>{{h.amount}}</td>
-              <td>{{h.processedDate | date:'MM/dd/yyyy @ h:mma'}}</td>
+            <tr ng-show="r.showHistory" class="row-details" ng-click="r.showHistory = !(r.showHistory);">
+              <td colspan="3">
+                <h5>History: {{r.account}}</h5>
+                <table class="table table-inline history-table">
+                  <tr ng-repeat="h in r.history">
+                    <td>{{h.amount}}</td>
+                    <td>{{h.processedDate | date:'MM/dd/yyyy @ h:mma'}}</td>
+                  </tr>
+                  <tr ng-show="r.history.length==0"><td colspan="4">N/A</td></tr>
+                </table>
+                <button ng-click="removeAccount(r)" class="btn btn-success btn-xs m-b-30">Delete Account</button>
+              </td>
             </tr>
             <tr ng-repeat-end ng-show="r.showHistory">
               <td colspan="5" style="text-align:right;">

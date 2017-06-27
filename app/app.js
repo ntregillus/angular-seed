@@ -36,6 +36,19 @@ app.controller("NotificationCtrl", ['$rootScope', function($rootScope){
 		$rootScope.notifications.splice(index, 1);
 	};
 }]);
+app.controller("TabCtrl", ['$scope', '$location', function($scope, $location){
+	$scope.tab = $location.path();
+	$scope.$on('$locationChangeSuccess', function(){
+		$scope.tab = $location.path();
+	});
+	$scope.classes = function(newTab, curTab){
+		var cls = "btn btn-default btn-tab";
+		if (newTab == curTab){
+			cls += " active";
+		}
+		return cls;
+	};
+}]);
 
 app.run(function($rootScope, $localStorage){
 

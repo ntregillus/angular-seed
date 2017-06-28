@@ -1,6 +1,6 @@
 <h4>On-going Payments</h4>
 <div ng-show="!$root.config.url">cannot use virtual terminal until configured</div>
-  <form ng-submit="authAndAddCard()" ng-show="$root.config.url && mode == 'add'">
+  <form ng-submit="authAndAddCard()" ng-show="$root.config.url && mode == 'add'" name="addAccount" novalidate>
     <h5>Add Account</h5>
     <div class="row">
       <div class="col-sm-6">
@@ -15,7 +15,7 @@
             <i class="fa fa-dollar"></i>
           </span>
           <label>Recurring Amount</label>
-          <input type="email" class="form-control" placeholder="0.00" ng-model="reccuringAmount" required>
+          <input type="email" class="form-control" placeholder="0.00" ng-model="reccuringAmount" name="amount" required>
         </div>
       </div>
     </div>
@@ -23,13 +23,13 @@
       <div class="col-sm-6">
         <div class="form-group form-group-default">
           <label>Card Number</label>
-          <input type="text" placeholder="0000000000000000" class="form-control" ng-model="request.Account" required>
+          <input type="text" placeholder="0000000000000000" class="form-control" ng-model="request.Account" name="account" required>
         </div>
       </div>
       <div class="col-sm-6">
         <div class="form-group form-group-default">
           <label>Expiration Date</label>
-          <input type="text" placeholder="1231" class="form-control" ng-model="request.Expiration" required>
+          <input type="text" placeholder="1231" class="form-control" ng-model="request.Expiration" name="expiriation" required>
         </div>
       </div>
     </div>
@@ -37,13 +37,13 @@
       <div class="col-sm-6">
         <div class="form-group form-group-default">
           <label>CVV</label>
-          <input type="text" placeholder="000" class="form-control" ng-model="request.CVV" >
+          <input type="text" placeholder="000" class="form-control" ng-model="request.CVV" name="cvv">
         </div>
       </div>
       <div class="col-sm-6">
         <div class="form-group form-group-default">
           <label>Zip</label>
-          <input type="text" placeholder="00000" class="form-control" ng-model="request.Zip" >
+          <input type="text" placeholder="00000" class="form-control" ng-model="request.Zip" name="zip" >
         </div>
       </div>
     </div>
@@ -68,8 +68,10 @@
     <p>
       Click "Add Accounts" to add a card and on-going payment amount.
     </p>
-    <button ng-click="mode = 'add'" class="btn btn-complete btn-xs m-t-10 m-r-10">Add Account</button><button ng-show="hasChanges == true" ng-click="saveAmountChanges()" class="btn btn-success btn-xs m-t-10">Save</button>
-
+    <button ng-click="mode = 'add'" class="btn btn-complete btn-xs m-t-10 m-r-10">Add Account</button>
+    <button ng-show="hasChanges == true" ng-click="saveAmountChanges()" class="btn btn-success btn-xs m-t-10">Save</button>
+    <button ng-click="backup()" class="btn btn-complete btn-xs m-t-10 m-r-10">Backup</button>
+    <button ng-click="mode = 'import'" class="btn btn-complete btn-xs m-t-10 m-r-10">Import</button>
     <div class="table-responsive">
       <div id="detailedTable_wrapper" class="dataTables_wrapper form-inline no-footer">
         <table class="table table-hover table-condensed table-detailed dataTable no-footer" role="grid" ng-show="savedAccounts.length > 0">
@@ -121,7 +123,7 @@
 </div>
 <div ng-show="mode=='import'">
   <p>copy contents of your 'BulkProcessingBackup.json' file into the textbox below, and click Import</p>
-  <textarea ng-model="backupContents"></textarea>
-  <button ng-click="importBackup()">Import</button>
-  <button ng-click="mode = 'process'">Cancel</button>
+  <textarea ng-model="backupContents" style="width:100%;"></textarea>
+  <button class="btn btn-primary btn-cons m-t-10" ng-click="importBackup()">Import</button>
+  <button ng-click="mode = 'process'" class="btn btn-danger btn-cons m-t-10">Cancel</button>
 </div>

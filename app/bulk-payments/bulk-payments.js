@@ -18,6 +18,9 @@ function($rootScope, $scope, $localStorage, $pay) {
 	$scope.processing = false;
 	$scope.backupContents = '';
 	$scope.authAndAddCard = function (){
+		if($scope.mode == 'process'){
+			return; //user clicked cancel
+		}
 		var authData = $scope.request;
 		authData.Amount = 0.00;
 		var reccuringAmount = $scope.reccuringAmount;

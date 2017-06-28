@@ -29,12 +29,12 @@
   border:0px;
 }
 .btn-tab {
-  width:33%;
+  width:20%;
   border-bottom-left-radius: 0px;
   border-bottom-right-radius: 0px;
 }
 .btn-tab:last-child {
-  width:34%;
+  zwidth:34%;
 }
 .btn-tab a {
   width:100%;

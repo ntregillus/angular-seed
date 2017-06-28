@@ -33,9 +33,6 @@
   border-bottom-left-radius: 0px;
   border-bottom-right-radius: 0px;
 }
-.btn-tab:last-child {
-  zwidth:34%;
-}
 .btn-tab a {
   width:100%;
   display:block;
@@ -75,4 +72,7 @@ li {
 }
 #detailedTable_wrapper .input-group-addon i {
   top:-1px;
+}
+.table.table-condensed.table-detailed > tbody > tr > td:last-child:before {
+  display: none!important;
 }

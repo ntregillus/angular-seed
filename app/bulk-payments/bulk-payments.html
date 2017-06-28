@@ -59,9 +59,9 @@
     <p>
       Click "Process" to run a payment from all cards displayed in the "Accounts" section below.
     </p>
-    <span ng-show="processing">Input disabled while processing...</span>
 
-    <button  ng-hide="!savedAccounts || savedAccounts.length == 0" ng-click="saveAndBulkProcess(savedAccounts)" class="btn btn-primary btn-block m-t-10">Process</button>
+    <span ng-show="processing">Input disabled while processing...</span>
+    <button  ng-hide="!savedAccounts || savedAccounts.length == 0 || processing" ng-click="saveAndBulkProcess(savedAccounts)" class="btn btn-primary btn-block m-t-10">Process</button>
 
     <hr />
     <h5 class="m-t-20">Accounts</h5>

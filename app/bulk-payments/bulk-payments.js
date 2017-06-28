@@ -35,7 +35,7 @@ function($rootScope, $scope, $localStorage, $pay) {
 				var index = $scope.savedAccounts.indexOf(matchingAccounts[0]);
 
 				$rootScope.notifications.unshift({
-					class: 'failure',
+					class: 'alert-danger',
 					message: "An account already exists for " + content.Account
 								+ ", alias:''" + alias + "' '(see row "+index+")"
 				});
@@ -53,7 +53,7 @@ function($rootScope, $scope, $localStorage, $pay) {
 
 			$localStorage.save('savedAccounts', $scope.savedAccounts);
 			$rootScope.notifications.unshift({
-				class: 'success',
+				class: 'alert-success',
 				message: "Added " + alias
 			});
 		}, true);
@@ -96,20 +96,20 @@ function($rootScope, $scope, $localStorage, $pay) {
 				var curAccount = $scope.savedAccounts.filter(function(a){return a.token == response.content.Token});
 				if(curAccount.length > 0){
 					curAccount[0].lastProcessedDate = Date.now();
-					var refNo = response.contnet.RefNo || ("noRefNo"+curAccount[0].history.length);
+					var refNo = response.content.RefNo || ("noRefNo"+curAccount[0].history.length);
 					curAccount[0].history.unshift({amount:response.content.Amount, processedDate: Date.now(), refNo: refNo});
 				}
 				if(processedCount == accountsToProcess.length){
 					if(failures.length == 0){
 						$rootScope.notifications.unshift({
-							class: 'success',
+							class: 'alert-success',
 							message: "Successfully processed " + successCount + " transactions"
 						});
 					}else{
 						for(let f; f > failures.length; f++){
 							var curFail = failures[f];
 							$rootScope.notifications.unshift({
-								class: 'failure',
+								class: 'alert-danger',
 								message: curFail.formattedMsg
 							});
 						}
@@ -127,7 +127,7 @@ function($rootScope, $scope, $localStorage, $pay) {
 			if(typeof(suppressNotification) === 'undefined' || suppressNotification == false)
 			{
 				$rootScope.notifications.unshift({
-					class: 'success',
+					class: 'alert-success',
 					message: "Saved Amount Changes"
 				});
 			}
@@ -194,7 +194,7 @@ function($rootScope, $scope, $localStorage, $pay) {
 		}catch(e){
 			var msg = e.message || e.toString();
 			$rootScope.notifications.unshift({
-				class: 'failure',
+				class: 'alert-danger',
 				message: "Fail: " + msg
 			});
 			return;

@@ -7,7 +7,8 @@ var app = angular.module('myApp', [
 	'myApp.terminal',
 	'myApp.bulk-payments',
 	'myApp.version',
-	'myApp.stored-value'
+	'myApp.stored-value',
+	'myApp.reports'
 ]);
 app.service('$localStorage', function(){
 

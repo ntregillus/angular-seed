@@ -64,9 +64,7 @@
 <!-- START TABS -->
             <div class="btn-group m-t-20" style="width:100%;" ng-controller="TabCtrl">
               <label class="{{classes(tab, '/terminal')}}">
-                <a href="#!/terminal">
-                  Payment
-                </a>
+                <a href="#!/terminal">Payment</a>
               </label>
               <label class="{{classes(tab, '/bulk-payments')}}">
                 <a href="#!/bulk-payments">Recurring</a>
@@ -74,10 +72,11 @@
               <label class="{{classes(tab, '/stored-value')}}">
                 <a href="#!/stored-value">Gift</a>
               </label>
+              <label class="{{classes(tab, '/reports')}}">
+                <a href="#!/reports">Reports</a>
+              </label>
               <label class="{{classes(tab, '/configure')}}">
-                <a href="#!/configure">
-                  Configure
-                </a>
+                <a href="#!/configure">Configure</a>
               </label>
             </div>
 <!-- END TABS -->
@@ -130,6 +129,7 @@
   <!-- services here -->
   <script src="services/sv.js"></script>
   <script src="services/pay.js"></script>
+  <script src="services/rpt.js"></script>
   <!-- views here-->
   <script src="configure/configure.js"></script>
   <script src="terminal/terminal.js"></script>

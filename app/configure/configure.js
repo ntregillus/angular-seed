@@ -16,16 +16,16 @@ function($rootScope, $scope, $localStorage) {
     $scope.$watch('secret',function(oldValue, newValue){
       if (newValue.startsWith('local')){
         $scope.url = 'http://localhost:7003/v1/';
-        $scope.reportingUrl = "http://localhost:24052/v1/";
+        $scope.reportingUrl = "http://localhost:24052";
       }else if (newValue.startsWith('test')){
         $scope.url = 'https://pay-test.monetary.co/v1/'
-        $scope.reportingUrl = "https://reporting-test.monetary.co/v1/";
+        $scope.reportingUrl = "https://reporting-test.monetary.co";
       }else if (newValue.startsWith('cert')){
         $scope.url = 'https://pay-cert.monetary.co/v1/'
-        $scope.reportingUrl = "https://reporting-cert.monetary.co/v1/";
+        $scope.reportingUrl = "https://reporting-cert.monetary.co";
       }else{
         $scope.url = 'https://pay.monetary.co/v1/'
-        $scope.reportingUrl = "https://reporting.monetary.co/v1/";
+        $scope.reportingUrl = "https://reporting.monetary.co";
       }
     })
     $scope.saveConfig = function(){

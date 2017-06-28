@@ -31,7 +31,7 @@ function($rootScope, $scope, $localStorage, $pay) {
 			}
 			var content = response.content;
 			var matchingAccounts = $scope.savedAccounts.filter(function(a){
-				a.token == content.Token || a.alias == alias
+				return a.token == content.Token || a.alias == alias;
 			})
 			if (matchingAccounts.length > 0)
 			{
@@ -39,8 +39,8 @@ function($rootScope, $scope, $localStorage, $pay) {
 
 				$rootScope.notifications.unshift({
 					class: 'alert-danger',
-					message: "An account already exists for " + content.Account
-								+ ", alias:''" + alias + "' '(see row "+index+")"
+					message: "An account already exists for: " + content.Account.replace("X", "")
+								+ ", alias:" + alias + " '(see row "+(index+1)+")"
 				});
 				return;
 			}
@@ -53,6 +53,9 @@ function($rootScope, $scope, $localStorage, $pay) {
 				lastProcessedDate: null,
 				history: [],
 			});
+			$scope.request = {};
+			$scope.alias = '';
+			$scope.mode = 'process';
 
 			$localStorage.save('savedAccounts', $scope.savedAccounts);
 			$rootScope.notifications.unshift({

@@ -56,6 +56,6 @@ app.service('$pay', ['$http', '$rootScope', function($http, $rootScope){
 			url: $rootScope.config.url + 'credit/authonly',
 			data: JSON.stringify(payload),
 			headers: headers
-		}).then(buildSuccessHandler(callback), buildFailureHandler(callback));
+		}).then(buildSuccessHandler(callback, suppressNotification), buildFailureHandler(callback, suppressNotification));
 	};
 }]);

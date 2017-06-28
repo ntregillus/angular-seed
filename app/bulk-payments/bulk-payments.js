@@ -31,7 +31,7 @@ function($rootScope, $scope, $localStorage, $pay) {
 			}
 			var content = response.content;
 			var matchingAccounts = $scope.savedAccounts.filter(function(a){
-				a.token == content.token || a.alias == alias
+				a.token == content.Token || a.alias == alias
 			})
 			if (matchingAccounts.length > 0)
 			{

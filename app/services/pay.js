@@ -5,7 +5,7 @@ app.service('$pay', ['$http', '$rootScope', function($http, $rootScope){
 			if(!suppressNotification)
 			{
 				$rootScope.notifications.unshift({
-					class: "success",
+					class: "alert-success",
 					message: (response.data.Status||"Success")
 									+ " (" + (response.data.Account|| "NoAccount") + ")"
 									+ ":" + response.data.Message
@@ -26,7 +26,7 @@ app.service('$pay', ['$http', '$rootScope', function($http, $rootScope){
 			{
 
 				$rootScope.notifications.unshift({
-					class: "failure",
+					class: "alert-danger",
 					message: formattedMsg
 				});
 			}

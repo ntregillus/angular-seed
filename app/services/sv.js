@@ -12,7 +12,7 @@ app.service('$sv',['$http', '$rootScope', function($http, $rootScope) {
   };
   var buildSuccessHandler = function(callback){
 		return function(response){
-      response.data.guid = createGuid();  
+      response.data.guid = createGuid();
 			$rootScope.notifications.unshift({
 				class: "success",
 				message: (response.data.Status||"Success")
@@ -31,7 +31,7 @@ app.service('$sv',['$http', '$rootScope', function($http, $rootScope) {
 							+ " (" + (response.data.Account|| "NoAccount") + ")"
 							+ ":" + response.data.Message;
 			$rootScope.notifications.unshift({
-				class: "failure",
+				class: "alert-danger",
 				message: formattedMsg
 			});
 			if(callback)
@@ -47,15 +47,15 @@ app.service('$sv',['$http', '$rootScope', function($http, $rootScope) {
     }
     var isValid = true;
     if( validateAmount && (!payload.Amount || payload.Amount.trim() =='')){
-      $rootScope.notifications.unshift({class:'error', message: 'invalid amount'});
+      $rootScope.notifications.unshift({class:'alert-danger', message: 'invalid amount'});
       isValid = false;
     }
     if(!payload.Account || payload.Account.trim() == ''){
-      $rootScope.notifications.unshift({class:'error', message: 'invalid account'});
+      $rootScope.notifications.unshift({class:'alert-danger', message: 'invalid account'});
       isValid = false;
     }
     if(!payload.CVV || payload.CVV.trim() == ''){
-      $rootScope.notifications.unshift({class:'error', message: 'invalid CVV'});
+      $rootScope.notifications.unshift({class:'alert-danger', message: 'invalid CVV'});
       isValid = false;
     }
     return isValid;

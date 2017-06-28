@@ -84,9 +84,9 @@
             <div class="panel padding-10">
               <ul ng-controller="NotificationCtrl" class="alert-ul">
                 <li ng-repeat="notification in $root.notifications track by $index">
-                  <div class="alert alert-success" role="alert">
-                    <button ng-click="closeNotification(notification)" class="close" data-dismiss="alert"></button>
-                    <span class="{{notification.class}}">{{notification.message}}</span>
+                  <div class="alert {{notification.class}}"  role="alert">
+                    <button ng-click="closeNotification(notification)" class="close"></button>
+                    <span>{{notification.message}}</span>
                   </div>
                 </li>
               </ul>

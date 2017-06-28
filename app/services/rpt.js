@@ -12,7 +12,7 @@ app.service('$rpt',['$http', '$rootScope', function($http, $rootScope) {
   }).then(function(response){groups = response.data;},
     function(reponse) {
       $rootScope.notifications.unshift({
-        class:'error',
+        class:'alert alert-danger',
         message: 'could not load available groups. Try again later'
       });
     });
@@ -34,7 +34,7 @@ app.service('$rpt',['$http', '$rootScope', function($http, $rootScope) {
       },
       function(response){
         $rootScope.notifications.unshift({
-          class:'error',
+          class:'alert alert-danger',
           message: 'could not load available reports. Try again later'
         });
     });
@@ -104,7 +104,7 @@ app.service('$rpt',['$http', '$rootScope', function($http, $rootScope) {
       callback(headers, response.data);
       if(response.data.length == 0){
         $rootScope.notifications.unshift({
-          class:'success',
+          class:'alert-success',
           message: "no data returned"
         });
       }
@@ -115,7 +115,7 @@ app.service('$rpt',['$http', '$rootScope', function($http, $rootScope) {
         msg = response.data.Status + ":" + response.data.Message;
       }
       $rootScope.notifications.unshift({
-        class:'error',
+        class:'alert alert-danger',
         message: msg
       });
     });

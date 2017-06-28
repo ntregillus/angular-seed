@@ -12,7 +12,12 @@ angular.module('myApp.bulk-payments', ['ngRoute'])
 .controller('BulkPaymentsCtrl', ['$rootScope', '$scope', '$localStorage', '$pay',
 function($rootScope, $scope, $localStorage, $pay) {
 	$scope.mode = 'process';
-	$scope.savedAccounts = $localStorage.get('savedAccounts') || [];
+	var accounts = ($localStorage.get('savedAccounts') || []).map(function(a){
+		a.showHistory = false;
+		return a;
+	});
+
+	$scope.savedAccounts = accounts;
   $scope.request = $scope.request || {};
 	$scope.hasChanges = false;
 	$scope.processing = false;
@@ -56,6 +61,7 @@ function($rootScope, $scope, $localStorage, $pay) {
 			$scope.request = {};
 			$scope.alias = '';
 			$scope.mode = 'process';
+
 
 			$localStorage.save('savedAccounts', $scope.savedAccounts);
 			$rootScope.notifications.unshift({

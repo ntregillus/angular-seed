@@ -1,26 +1,36 @@
 
 <h1>Stored Value</h1>
 <div>
-<form ng-submit="submitTransaction()" style="text-align:right; width:350px;">
-  <div>
-    <label>Operation:</label>
-    <input type="radio" name="operation" value="Sale" ng-model="op">Sale</input>
-    <input type="radio" name="operation" value="Load" ng-model="op">Load</input>
-    <input type="radio" name="operation" value="Balance" ng-model="op">Balance</input>
+<div ng-show="!$root.config.url">cannot use stored value until configured</div>
+<div class="bbtn-group btn-group-justified">
+  <a class="btn btn-complete" ng-click="op = 'Sale'" ng-class="{active:op=='Sale'}">Sale</a>
+  <a class="btn btn-complete" ng-click="op = 'Load'" ng-class="{active:op=='Load'}">Load</a>
+  <a class="btn btn-complete" ng-click="op = 'Balance'" ng-class="{active:op=='Balance'}">Balance</a>
+</div>
+<form ng-show="$root.config.url" ng-submit="submitTransaction()">
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="form-group form-group-default input-group">
+        <span class="input-group-addon">
+          <i class="fa fa-dollar"></i>
+        </span>
+    <label>Amount</label>
+    <input class="form-control" type="text" ng-model="amount" placeholder="0.00" ng-disabled="op == 'Balance'" required></input>
+    </div>
   </div>
-  <div>
-    <label>Amount:</label>
-    <input type="text" ng-model="amount" ng-disabled="op == 'Balance'"></input>
+  <div class="col-sm-4">
+    <div class="form-group form-group-default">
+      <label>Account</label>
+      <input class="form-control" type="text" ng-model="account"></input>
+    </div>
   </div>
-  <div>
-    <label>Account:</label>
-    <input type="text" ng-model="account"></input>
+  <div class="col-sm-4">
+    <div class="form-group form-group-default">
+    <label>CVV</label>
+    <input class="form-control" type="text" ng-model="cvv"></input>
+    </div>
   </div>
-  <div>
-    <label>CVV:</label>
-    <input type="text" ng-model="cvv"></input>
-  </div>
-  <button ng-submit="submitTransaction()">Process {{op}}</button>
+  <button ng-submit="submitTransaction()" class="btn btn-primary">Process {{op}}</button>
 </form>
 </div>
 <div ng-show="responses.length > 0">

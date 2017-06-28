@@ -10,7 +10,7 @@
 <form ng-show="$root.config.url" ng-submit="submitTransaction()">
   <div class="row">
     <div class="col-sm-4">
-      <div class="form-group form-group-default input-group">
+      <div class="form-group form-group-default input-group" ng-class="{disabled:op=='Balance'}">
         <span class="input-group-addon">
           <i class="fa fa-dollar"></i>
         </span>

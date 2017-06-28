@@ -36,7 +36,6 @@ app.service('$sv',['$http', '$rootScope', function($http, $rootScope) {
 			});
 			if(callback)
 			{
-        response.data.guid =
 				callback({content: response.data, isSuccessful: false, formattedMsg: formattedMsg});
 			}
 		};

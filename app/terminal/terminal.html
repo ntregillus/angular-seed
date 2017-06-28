@@ -8,6 +8,12 @@
   <form ng-submit="requestPayment()" ng-show="$root.config.url">
     <div class="row">
       <div class="col-sm-6">
+        <div class="btn-group form-group form-group-default">
+          <a class="btn btn-complete" ng-click="op = 'Credit'" ng-class="{active:op=='Credit'}">Credit</a>
+          <a class="btn btn-complete" ng-click="op = 'Gift'" ng-class="{active:op=='Gift'}">Gift</a>
+        </div>
+      </div>
+      <div class="col-sm-6">
         <div class="form-group form-group-default input-group">
           <span class="input-group-addon">
             <i class="fa fa-dollar"></i>
@@ -16,32 +22,32 @@
           <input type="text" class="form-control" placeholder="0.00" ng-model="request.Amount" required>
         </div>
       </div>
+    </div>
+    <div class="row">
       <div class="col-sm-6">
         <div class="form-group form-group-default">
           <label>Card Number</label>
           <input type="text" placeholder="################" class="form-control" ng-model="request.Account" required>
         </div>
       </div>
-    </div>
-    <div class="row">
       <div class="col-sm-6">
-        <div class="form-group form-group-default">
+        <div class="form-group form-group-default"  ng-class="{disabled: op=='Gift'}">
           <label>Expiration Date</label>
-          <input type="text" placeholder="1231" class="form-control" ng-model="request.Expiration" required>
+          <input type="text" placeholder="1231" class="form-control" ng-model="request.Expiration" ng-disabled="op=='Gift'">
         </div>
       </div>
+    </div>
+    <div class="row">
       <div class="col-sm-6">
         <div class="form-group form-group-default">
           <label>CVV</label>
           <input type="text" placeholder="###" class="form-control" ng-model="request.CVV">
         </div>
       </div>
-    </div>
-    <div class="row">
       <div class="col-sm-6">
-        <div class="form-group form-group-default">
+        <div class="form-group form-group-default" ng-class="{disabled: op=='Gift'}">
           <label>Zip</label>
-          <input type="text" placeholder="#####" class="form-control" ng-model="request.Zip">
+          <input type="text" placeholder="#####" class="form-control" ng-model="request.Zip"  ng-disabled="op=='Gift'">
         </div>
       </div>
       <div class="col-sm-6">
